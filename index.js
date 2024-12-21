@@ -1,7 +1,6 @@
-import { PrismaClient } from "@prisma/client";
+import prisma from "./db/prismaInstance";
 import express from "express";
 
-const prisma = new PrismaClient();
 const app = express();
 const port = 8032;
 

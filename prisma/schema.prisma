@@ -13,7 +13,21 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+
 model User {
+  id       Int       @id @default(autoincrement())
+  sessions Session[]
+}
+
+model Session {
+  id        String   @id
+  userId    Int
+  expiresAt DateTime
+
+  user      User     @relation(references: [id], fields: [userId], onDelete: Cascade)
+}
+
+model Users {
   id       String   @id @default(cuid())
   email    String   @unique
   name     String?
@@ -29,7 +43,7 @@ model NotifLogs{
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  user     User     @relation(fields: [userId], references: [id])
+  user     Users     @relation(fields: [userId], references: [id])
 }
 
 model AffectedInstance {
@@ -56,5 +70,5 @@ model UserLocation {
   location    String
   coordinates String  
 
-  user        User     @relation(fields: [userId], references: [id])
+  user        Users     @relation(fields: [userId], references: [id])
 }
