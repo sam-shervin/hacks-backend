@@ -1,9 +1,7 @@
-import { prisma } from "../db/prismaInstance";
-import {
-  encodeBase32LowerCaseNoPadding,
-  encodeHexLowerCase,
-} from "@oslojs/encoding";
+import prisma from "../db/prismaInstance.js";
+import { encodeBase32LowerCaseNoPadding, encodeHexLowerCase } from "@oslojs/encoding";
 import { sha256 } from "@oslojs/crypto/sha2";
+import crypto from "crypto";
 
 export function generateSessionToken() {
   const bytes = new Uint8Array(20);
@@ -17,7 +15,7 @@ export async function createSession(token, userId) {
   const session = {
     id: sessionId,
     userId,
-    expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),  // 7 days
+    expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7), // 7 days
   };
   await prisma.session.create({
     data: session,
@@ -59,4 +57,37 @@ export async function validateSessionToken(token) {
 
 export async function invalidateSession(sessionId) {
   await prisma.session.delete({ where: { id: sessionId } });
+}
+
+export function setSessionTokenCookie(res, token, expiresAt) {
+  const cookieOptions = {
+    httpOnly: true,
+    sameSite: "Lax",
+    expires: expiresAt,
+    path: "/",
+  };
+
+  if (process.env.NODE_ENV === "production") {
+    // When deployed over HTTPS
+    cookieOptions.secure = true; // Ensure cookies are only sent over HTTPS
+  }
+
+  res.cookie("session", token, cookieOptions);
+}
+
+// Delete the session token cookie
+export function deleteSessionTokenCookie(res) {
+  const cookieOptions = {
+    httpOnly: true,
+    sameSite: "Lax",
+    maxAge: 0, // this will cause the cookie to expire immediately
+    path: "/",
+  };
+
+  if (process.env.NODE_ENV === "production") {
+    // When deployed over HTTPS
+    cookieOptions.secure = true; // Ensure cookies are only sent over HTTPS
+  }
+
+  res.cookie("session", "", cookieOptions); // Set an empty value to delete the cookie
 }

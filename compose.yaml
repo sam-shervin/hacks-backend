@@ -9,7 +9,7 @@ services:
     ports:
       - "8032:8032" # Expose only the web part running on 8032
     command: >
-      sh -c "pnpx prisma generate && pnpx prisma db pull && node index.js"
+      sh -c "pnpx prisma generate && node index.js"
     depends_on:
       - db
 

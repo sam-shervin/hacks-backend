@@ -7,15 +7,12 @@ WORKDIR /app
 # Copy package files
 COPY package*.json ./
 
-COPY prisma ./
-
 RUN npm install -g pnpm && pnpm install
 
-COPY prisma ./prisma
+COPY prisma .
 
 RUN pnpx prisma generate
 
-# Copy the application code
 COPY . .
 
 # Expose the app port

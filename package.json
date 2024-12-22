@@ -4,6 +4,7 @@
     "@oslojs/crypto": "^1.0.1",
     "@oslojs/encoding": "^1.1.0",
     "@prisma/client": "^6.1.0",
+    "bcrypt": "^5.1.1",
     "express": "^4.21.2",
     "prisma": "^6.1.0"
   }
