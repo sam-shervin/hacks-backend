@@ -11,9 +11,9 @@ RUN npm install -g pnpm && pnpm install
 
 COPY prisma .
 
-RUN pnpx prisma generate
-
 COPY . .
+
+RUN pnpx prisma generate
 
 # Expose the app port
 EXPOSE 8032

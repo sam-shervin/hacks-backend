@@ -19,7 +19,11 @@ model User {
   email     String    @unique
   name      String?
   password  String
-  sessions  Session[]
+  verified  Boolean  @default(false)
+  verifyToken String? 
+  verifyTokenExpireAt  DateTime?
+
+  sessions     Session[]
   NotifLogs    NotifLogs[]
   locations    UserLocation[]
 }

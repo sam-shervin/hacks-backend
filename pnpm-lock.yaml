@@ -20,6 +20,9 @@ dependencies:
   express:
     specifier: ^4.21.2
     version: 4.21.2
+  nodemailer:
+    specifier: ^6.9.16
+    version: 6.9.16
   prisma:
     specifier: ^6.1.0
     version: 6.1.0
@@ -656,6 +659,11 @@ packages:
         optional: true
     dependencies:
       whatwg-url: 5.0.0
+    dev: false
+
+  /nodemailer@6.9.16:
+    resolution: {integrity: sha512-psAuZdTIRN08HKVd/E8ObdV6NO7NTBY3KsC30F7M4H1OnmLCUNaS56FpYxyb26zWLSyYF9Ozch9KYHhHegsiOQ==}
+    engines: {node: '>=6.0.0'}
     dev: false
 
   /nopt@5.0.0:
