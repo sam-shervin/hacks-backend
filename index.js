@@ -10,6 +10,7 @@ import {
   deleteSessionTokenCookie,
 } from "./auth/session.js";
 import nodemailer from "nodemailer";
+import rateLimit from "express-rate-limit";
 
 // Nodemailer transporter setup
 const transporter = nodemailer.createTransport({
@@ -22,6 +23,17 @@ const transporter = nodemailer.createTransport({
 
 const app = express();
 const port = 8032;
+
+// Define the rate limiter
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15-minute window
+  max: 100, // Limit each IP to 100 requests per windowMs
+  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+});
+
+// Apply the rate limiter to all requests
+app.use(limiter);
 
 app.use(express.json());
 
@@ -224,6 +236,13 @@ app.post("/logout", async (req, res) => {
 app.get("/test", (req, res) => {
   res.send("Hello World");
 });
+
+
+app.use((err, req, res, next) => {
+  console.error(err.stack); // Logs the error stack for debugging
+  res.status(500).json({ error: "Internal Server Error" }); // Send a generic error message
+});
+
 
 // Start the server
 app.listen(port, () => {

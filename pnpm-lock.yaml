@@ -20,6 +20,9 @@ dependencies:
   express:
     specifier: ^4.21.2
     version: 4.21.2
+  express-rate-limit:
+    specifier: ^7.5.0
+    version: 7.5.0(express@4.21.2)
   nodemailer:
     specifier: ^6.9.16
     version: 6.9.16
@@ -352,6 +355,15 @@ packages:
   /etag@1.8.1:
     resolution: {integrity: sha512-aIL5Fx7mawVa300al2BnEE4iNvo1qETxLrPI/o05L7z6go7fCw1J6EQmbK4FmJ2AS7kgVF/KEZWufBfdClMcPg==}
     engines: {node: '>= 0.6'}
+    dev: false
+
+  /express-rate-limit@7.5.0(express@4.21.2):
+    resolution: {integrity: sha512-eB5zbQh5h+VenMPM3fh+nw1YExi5nMr6HUCR62ELSP11huvxm/Uir1H1QEyTkk5QX6A58pX6NmaTMceKZ0Eodg==}
+    engines: {node: '>= 16'}
+    peerDependencies:
+      express: ^4.11 || 5 || ^5.0.0-beta.1
+    dependencies:
+      express: 4.21.2
     dev: false
 
   /express@4.21.2:
